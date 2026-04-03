@@ -2,6 +2,7 @@ package Enumeradores;
 
 public enum NombreEquipo
 {
+    HOME_DECO_X50("Home Deco x50", 150),
     TABLA_DE_SURF("Tabla de Surf", 100),
     TRAJE_DE_NEOPRENE("Traje de Neoprene", 75),
     BODYBOARD("Bodyboard", 50),
