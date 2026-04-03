@@ -2,6 +2,7 @@ package Clases;
 
 import Enumeradores.EstadoPago;
 import Enumeradores.MetodoPago;
+import Enumeradores.NombreEquipo;
 import ExcepcionesPersonalizadas.CupoLlenoException;
 import ExcepcionesPersonalizadas.IdNoEncontradoException;
 import Interfaces.InterfazJson;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -214,6 +216,32 @@ public class EscuelaDeSurf implements InterfazJson //Clase para encargarse de la
         }
 
         return e;
+    }
+
+    public List<Equipo> buscarEquiposDisponiblesPorNombreOrdenadosPorPrecio(NombreEquipo nombreEquipo, int cantidad)
+    {
+        if (nombreEquipo == null)
+        {
+            throw new IllegalArgumentException("El nombre del equipo no puede ser nulo.");
+        }
+        if (cantidad <= 0)
+        {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a cero.");
+        }
+
+        List<Equipo> equiposDisponibles = getRepoEquipos().getTodos().stream()
+                .filter(Equipo::isDisponible)
+                .filter(equipo -> equipo.getNombre() == nombreEquipo)
+                .sorted(Comparator.comparingDouble(Equipo::getPrecioPorDia))
+                .limit(cantidad)
+                .toList();
+
+        if (equiposDisponibles.size() < cantidad)
+        {
+            return List.of();
+        }
+
+        return equiposDisponibles;
     }
 
     public List<Reserva> buscarReservasPorAlumnoId(int idAlumno) throws IdNoEncontradoException

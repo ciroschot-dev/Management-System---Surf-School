@@ -55,6 +55,7 @@ public class MenuConsola //Clase para encargarse de la gestión de la interfaz d
             System.out.println("18. Chequear morosidad de cliente.");
             System.out.println("19. Grabar repositorios a json.");
             System.out.println("20. Mostrar todos los repositorios.");
+            System.out.println("21. Buscar Home Deco x50 más barato (2 unidades).");
 
             System.out.println("999. Salir.");
 
@@ -86,6 +87,7 @@ public class MenuConsola //Clase para encargarse de la gestión de la interfaz d
                     case 18 -> chequearMorosidadCliente();
                     case 19 -> grabarRepositoriosAjson();
                     case 20 -> mostrarTodosLosRepositorios();
+                    case 21 -> buscarHomeDecoX50MasBaratoDosUnidades();
                     case 999 -> System.out.println("\nSaliendo del programa...");
                     default -> System.out.println("\nIngrese una opción valida...");
                 }
@@ -149,6 +151,32 @@ public class MenuConsola //Clase para encargarse de la gestión de la interfaz d
         System.out.println("\n--------------------------------------------------\n");
         System.out.println("REPOSITORIO DE PAGOS: " + escuela.getRepoPagos());
         System.out.println("\n--------------------------------------------------");
+    }
+
+    public void buscarHomeDecoX50MasBaratoDosUnidades()
+    {
+        try
+        {
+            List<Equipo> equipos = escuela.buscarEquiposDisponiblesPorNombreOrdenadosPorPrecio(NombreEquipo.HOME_DECO_X50, 2);
+            if (equipos.isEmpty())
+            {
+                System.out.println("No hay al menos 2 unidades disponibles de Home Deco x50.");
+                return;
+            }
+
+            double total = 0;
+            System.out.println("Las 2 unidades de Home Deco x50 más baratas disponibles son:");
+            for (Equipo equipo : equipos)
+            {
+                System.out.println(equipo);
+                total += equipo.getPrecioPorDia();
+            }
+            System.out.println("Total por día (2 unidades): $" + total);
+        }
+        catch (Exception e)
+        {
+            System.out.println("❌ Error al buscar Home Deco x50: " + e.getMessage());
+        }
     }
 
     public void agregarAlumno()
